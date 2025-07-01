@@ -1,6 +1,6 @@
-(ns create-clojure-app.template
+(ns crapp.template
   (:require [clojure.string :as string]
-            [create-clojure-app.utils :as utils]
+            [crapp.utils :as utils]
             [camel-snake-kebab.core :as csk]))
 
 (defn parse-template [{:keys [template values]}]

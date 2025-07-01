@@ -1,4 +1,4 @@
-(ns create-clojure-app.utils
+(ns crapp.utils
   (:import (java.io File)))
 
 (defn list-files [path]

@@ -1,12 +1,13 @@
-(ns create-clojure-app.main
-  (:require [create-clojure-app.template :as template]
-            [create-clojure-app.utils :as utils]))
+(ns crapp.main
+  (:require [crapp.template :as template]
+            [crapp.utils :as utils]
+            [crapp.config :as conf]))
 
 (defn create-project! [project-name template]
   (println (str "Creating " template " project '" project-name "'..."))
   (try
     (let [project-path (str "./" project-name)
-          template-path (str "./templates/" template)]
+          template-path (str (conf/read-value :templates :dir) "/" template)]
       (utils/make-directory! project-path)
       (template/deploy-template-files! template-path 
                                        project-path 
@@ -24,7 +25,7 @@
     (= (count args) 1)
     (create-project! (first args) "default")
 
-    (some #(= (last args) %) ["default" "server"])
+    (some #(= (last args) %) (conf/read-value :templates :list))
     (create-project! (first args) (last args))
 
     (> (count args) 2)
