@@ -1,6 +1,7 @@
 (ns create-clojure-app.template
   (:require [clojure.string :as string]
-            [create-clojure-app.utils :as utils]))
+            [create-clojure-app.utils :as utils]
+            [camel-snake-kebab.core :as csk]))
 
 (defn parse-template [{:keys [template values]}]
   (string/join (map
@@ -20,7 +21,7 @@
       (let [dirname (->> filename
                          (assoc {:values values} :template)
                          (parse-template)
-                         (utils/kebab-to-snake))]
+                         (csk/->snake_case))]
         (utils/make-directory! (str targetpath "/" dirname))
         (deploy-template-files! (str basepath "/" filename)
                                 (str targetpath "/" dirname)
@@ -28,7 +29,7 @@
 
       (let [original (slurp (str basepath "/" filename))
             replaced (parse-template {:template original
-                                               :values values})]
+                                      :values values})]
         (spit (str targetpath "/" filename) replaced)))))
 
 (comment
@@ -42,7 +43,7 @@
   (->> "project"
        (assoc {:values {:project "my-app"}} :template)
        (parse-template)
-       (utils/kebab-to-snake)
+       (csk/->snake_case)
        (str "./templates/default" "/"))
 
   (utils/make-directory! "./testing")

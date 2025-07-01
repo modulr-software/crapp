@@ -1,6 +1,5 @@
 (ns create-clojure-app.utils
-  (:import (java.io File))
-  (:require [camel-snake-kebab.core :as csk]))
+  (:import (java.io File)))
 
 (defn list-files [path]
   (.listFiles (File. path)))
@@ -14,5 +13,3 @@
 (defn make-directory! [path]
   (.mkdir (File. path)))
 
-(defn kebab-to-snake [s]
-  (csk/->snake_case s))
