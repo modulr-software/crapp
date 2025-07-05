@@ -1,2 +1,10 @@
 {:templates {:dir "./templates"
-             :list ["default" "server"]}}
+             :list {:default {:deps []}
+                    :server {:deps ["http-kit/http-kit {:mvn/version \"2.8.0\"}"
+                                    "ring/ring-core {:mvn/version \"1.13.0\"}"
+                                    "ring/ring-json {:mvn/version \"0.5.1\"}"]
+                             :component-groups {:router [:reitit
+                                                         :compojure]}}}}
+ :components {:dir "./components"
+              :list {:reitit {:deps ["metosin/reitit {:mvn/version \"0.9.1\"}"]}
+                     :compojure {:deps ["compojure/compojure {:mvn/version \"1.7.1\"}"]}}}}
