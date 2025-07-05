@@ -1,0 +1,2 @@
+{:templates {:dir "./templates"
+             :list ["default" "server"]}}
