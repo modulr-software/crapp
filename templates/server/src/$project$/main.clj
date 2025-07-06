@@ -1,4 +1,4 @@
-(ns $project$.$project$
+(ns $project$.main
   (:require [$project$.server :as server]
             [$project$.hooks :as hooks]))
 
