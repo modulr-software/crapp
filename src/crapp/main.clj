@@ -1,32 +1,66 @@
 (ns crapp.main
   (:require [crapp.template :as template]
-            [crapp.utils :as utils]
             [crapp.config :as conf]))
 
-(defn create-project! [project-name template]
-  (println (str "Creating " template " project '" project-name "'..."))
-  (try
-    (let [project-path (str "./" project-name)
-          template-path (str (conf/read-value :templates :dir) "/" template)]
-      (utils/make-directory! project-path)
-      (template/deploy-template-files! template-path 
-                                       project-path 
-                                       {:project project-name}))
-    (catch Exception e
-      (println (.getMessage e)))
-    (finally 
-      (println "Done."))))
+(defn prompt-template []
+  (println "\nChoose your project template:")
+  (let [templates (-> (conf/read-value :templates :list)
+                      (keys)
+                      (vec))]
+    (doseq [[template index] (zipmap templates
+                                     (->> templates
+                                          (count)
+                                          (inc)
+                                          (range 1)))]
+      (println (str index ". " (name template))))
 
-(defn -main [& args]
-  (cond
-    (empty? args)
-    (println "Please provide a project name.")
+    (print (str "Enter template number (1 - " (count templates) " | default 1): "))
+    (flush)
 
-    (= (count args) 1)
-    (create-project! (first args) "default")
+    (let [n (or (parse-long (read-line)) 0)
+          default (first templates)]
+      (if (or (< n 1) (> n (count templates)))
+        (do (println "\nUsing default...")
+            default)
+        (nth templates (dec n))))))
 
-    (some #(= (last args) %) (conf/read-value :templates :list))
-    (create-project! (first args) (last args))
+(defn prompt-component [component-group components]
+  (println (str "\nChoose your " (name component-group) ":"))
 
-    (> (count args) 2)
-    (println "Too many arguments.")))
+  (doseq [[component index] (zipmap components
+                                    (->> components
+                                         (count)
+                                         (inc)
+                                         (range 1)))]
+    (println (str index ". " (name component))))
+
+  (print (str "Enter component number (1 - " (count components) " | default 1): "))
+  (flush)
+
+  (let [n (or (parse-long (read-line)) 0)
+        default (first components)]
+    (if (or (< n 1) (> n (count components)))
+      (do (println (str "\nUsing default: " (name default) "..."))
+          default)
+      (nth components (dec n)))))
+
+(defn -main []
+  (println "Welcome to CRAPP!")
+  (print "Project name: ")
+  (flush)
+  (let [project (read-line)
+        template (prompt-template)
+        component-groups (conf/read-value :templates
+                                          :list
+                                          template
+                                          :component-groups)
+        components (reduce (fn [acc [cg cl]]
+                             (conj acc (prompt-component cg cl)))
+                           [] component-groups)]
+    (template/create-project! project template components)))
+
+(comment
+  (prompt-template)
+  (prompt-component :router [:reitit :compojure])
+  (-main)
+  ())

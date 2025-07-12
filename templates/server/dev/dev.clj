@@ -1,5 +1,5 @@
-(ns $project$.dev
-  (:require [$project$.server :as server]))
+(ns {$project$}.dev
+  (:require [{$project$}.server :as server]))
 
 (defn after-ns-reload []
   (server/restart-server))

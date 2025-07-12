@@ -1,7 +1,6 @@
-(ns $project$.server
-  (:require
-   [org.httpkit.server :as http]
-   [$project$.routes.interface :as routes]))
+(ns {$project$}.server
+  (:require [org.httpkit.server :as http]
+            [{$project$}.routes.interface :as routes]))
 
 (defonce ^:private *server (atom nil))
 
@@ -27,4 +26,3 @@
 (defn restart-server []
   (stop-server)
   (start-server))
-

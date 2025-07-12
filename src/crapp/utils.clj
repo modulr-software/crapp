@@ -13,3 +13,5 @@
 (defn make-directory! [path]
   (.mkdir (File. path)))
 
+(defn append-file! [path content]
+  (spit path content :append true))
