@@ -23,7 +23,7 @@
   (string/join (map
                 (fn [part]
                   (or (get values (keyword part)) part))
-                (string/split template #"\$"))))
+                (string/split template #"\{\$|\$\}"))))
 
 (defn deploy-template-files! [basepath targetpath values]
   (doseq [{:keys [filename is-directory]} (mapv
@@ -49,7 +49,7 @@
         (spit (str targetpath "/" filename) replaced)))))
 
 (defn create-project! [project-name template components]
-  (println (str "Creating " template " project '" project-name "'..."))
+  (println (str "\nCreating " (name template) " project '" project-name "'..."))
   (try
     (let [project-path (str "./" project-name)
           template-path (str (conf/read-value :templates :dir) "/" (name template))]
@@ -94,7 +94,7 @@
 
   (utils/make-directory! "./testing")
 
-  (parse-template {:template "hello my name is $name$ and I am $age$ years old"
+  (parse-template {:template "hello my name is {$name$} and I am {$age$} years old"
                    :values {:name "Keagan"
                             :age 23}})
   ())

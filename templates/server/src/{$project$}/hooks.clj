@@ -1,4 +1,4 @@
-(ns $project$.hooks)
+(ns {$project$}.hooks)
 
 (defn add-shutdown-hook [f]
   (let [runtime (Runtime/getRuntime)]

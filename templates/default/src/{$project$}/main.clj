@@ -1,4 +1,4 @@
-(ns $project$.main)
+(ns {$project$}.main)
 
 (defn -main [& args]
   (println "Hello, world!"))

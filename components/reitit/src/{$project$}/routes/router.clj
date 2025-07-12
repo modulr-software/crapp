@@ -1,7 +1,7 @@
-(ns $project$.routes.router
+(ns {$project$}.routes.router
   (:require [reitit.ring :as ring]
-            [$project$.middleware.interface :as mw]
-            [$project$.routes.home :as home]))
+            [{$project$}.middleware.interface :as mw]
+            [{$project$}.routes.home :as home]))
 
 (defn create-app []
   (ring/ring-handler

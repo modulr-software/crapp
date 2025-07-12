@@ -1,6 +1,6 @@
-(ns $project$.server
+(ns {$project$}.server
   (:require [org.httpkit.server :as http]
-            [$project$.routes.interface :as routes]))
+            [{$project$}.routes.interface :as routes]))
 
 (defonce ^:private *server (atom nil))
 

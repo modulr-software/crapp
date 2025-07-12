@@ -1,8 +1,8 @@
-(ns $project$.routes.router
+(ns {$project$}.routes.router
   (:require [compojure.core :refer [routes GET]]
             [compojure.route :as route]
-            [$project$.middleware.interface :as mw]
-            [$project$.routes.home :as home]))
+            [{$project$}.middleware.interface :as mw]
+            [{$project$}.routes.home :as home]))
 
 (defn create-app []
   (-> 
